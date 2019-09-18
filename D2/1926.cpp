@@ -1,44 +1,47 @@
 #include <iostream>
+#include <string>
 
 using namespace std;
 
-int N;
-
-int count369(int n) 
+int solve(int i)
 {
-	int count = 0;
-
-	while (true) 
+	int cnt = 0;
+	while (i != 0)
 	{
-		int digit = n % 10;
+		int tmp = i % 10;
+		
+		if (tmp == 3 || tmp == 6 || tmp == 9) cnt++;
 
-		if (digit == 3 || digit == 6 || digit == 9) count++;
-
-		n /= 10;
-
-		if (n == 0)break;
+		i = i / 10;
 	}
-
-	return count;
+	return cnt;
 }
 
-int main() 
+int main()
 {
-	scanf("%d", &N);
-	for (int i = 1; i <= N; i++) 
+	cin.tie(NULL);
+	cout.sync_with_stdio(false);
+
+	int n;
+	cin >> n;
+	string ans = "";
+	for (int i = 1; i <= n; i++)
 	{
-		int count = count369(i);
-
-		if (count == 0) 
+		int cnt369 = solve(i);
+		if (cnt369 == 0)
 		{
-			printf("%d ", i);
-			continue;
+			ans += to_string(i);
 		}
-
-		for (int j = 0; j < count; j++) {
-			printf("-");
+		else
+		{
+			for (int j = 0; j < cnt369; j++)
+			{
+				ans += '-';
+			}
 		}
-
-		printf(" ");
+		ans += ' ';
 	}
+
+	ans.pop_back();
+	cout << ans << endl;
 }
