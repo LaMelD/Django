@@ -24,7 +24,7 @@ int main()
 	cout.sync_with_stdio(false);
 
 	int T;
-	cin >> T;
+	cin >> T; 
 
 	for (int tc = 1; tc <= T; tc++)
 	{
