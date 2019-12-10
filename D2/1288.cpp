@@ -51,7 +51,6 @@ int main()
 			{
 				break;
 			}
-
 			sum += n;
 			ans++;
 		}
