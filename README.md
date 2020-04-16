@@ -1,13 +1,13 @@
 # Django Board app
 
 ## 환경
-python : 3.6
-django : 2.1
-myslq : 5.7
+- python : 3.6
+- django : 2.1
+- myslq : 5.7
 
 ## 구성
-admin page
-boardapp page
+- admin page
+- boardapp page
 
 ### admin page
 - 모든 내용을 관리할 수 있다.
