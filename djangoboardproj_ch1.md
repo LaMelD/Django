@@ -15,6 +15,9 @@
     $ yum upgrade -y
     $ yum install python3 -y
     $ yum install python3-pip -y
+    $ yum install gcc
+    $ yum install python-devel mysql-devel
+    $ yum install python3-devel
     ```
 
 - mysql 설치
@@ -106,3 +109,14 @@
     ```
     (ve) $ pip freeze
     ```
+
+- django에서 mysql을 사용하기위한 모듈 설치
+
+    ```
+    (ve) $ pip install mysqlclient
+    ```
+
+    - 오류가 난다면 아래를 설치한 뒤 다시 시도한다.
+        - `yum install gcc`
+        - `yum install python-devel mysql-devel`
+        - `yum install python3-devel`

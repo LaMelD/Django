@@ -163,3 +163,9 @@
             ```
             mysql> create database project;
             ```
+
+- 설정을 마쳤다면 서버를 실행시킨다.
+
+    ```
+    (ve) $ ./manage.py runserver 0.0.0.0:8000
+    ```
