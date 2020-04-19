@@ -51,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(unique=True, max_length=150)
     is_superuser = models.IntegerField()
     last_name = models.CharField(max_length=150)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=45)
     email = models.CharField(max_length=254)
     date_of_birth = models.DateTimeField()
     date_joined = models.DateTimeField()
