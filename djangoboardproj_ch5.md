@@ -2,8 +2,13 @@
 
 ## MVC - MTV 패턴 :: django 어플리케이션 흐름
 
-- url을 통해 view에서 정의된 내용을 사용하여 templates를 보여준다.는 내용을 설명
-- view에서 model을 사용해 데이터 베이스의 내용을 받아올 수 있음을 설명
+- urls.py에 등록되어 있는 url을 따라간다.
+
+- urls.py에 특정 url에 접근 했을 때 동작할 행동을 지정한다.
+
+- 지정한 동작을 views.py에 def, class로 만들어 행동을 이행시킨다.
+
+- 필요하다면 models.py에 접근하여 만들어 놓은 모델을 사용한다.
 
 ## MVC - MTV 패턴 :: urls.py 작성
 
