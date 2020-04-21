@@ -1,8 +1,6 @@
 # Django Boardapp project
 
-## MVC - MTV 패턴 :: Models
-
-### Models :: Database 구성
+## MVC - MTV 패턴 :: Database 구성
 
 - 모델을 구성하기에 앞서서 django에서 지원하는 admin을 사용하기 위해 기본적인 database를 받아온다.
 
@@ -113,6 +111,8 @@
         ```python
         AUTH_USER_MODEL = 'boardapp.user'
         ```
+
+## MVC - MTV 패턴 :: Models 구성
 
 - boardapp에서 사용할 table을 만들었으니 model에 추가해준다.
 - 기본적인 틀을 가져오기 위해서 inspectdb를 사용한다.
