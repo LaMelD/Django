@@ -94,5 +94,3 @@
     ```
 
 - runserver로 작성한 내용을 확인한다.
-
-하이 test code
