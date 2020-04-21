@@ -46,7 +46,7 @@
 
 ## MVC - MTV 패턴 :: 테스트 views.py 작성
 
-- `boardapp/views.py`
+- `boardapp/views.py` 앞으로 사용될 모듈을 모두 import에 넣어줬다.
 
     ```python
     from django.shortcuts import render, redirect
@@ -71,17 +71,6 @@
 - `boardapp/views.py`
 
     ```python
-    from django.shortcuts import render, redirect
-    from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-    from boardapp.models import *
-    from datetime import datetime
-    from django.utils import timezone
-    import math
-    from django.db.models import Count
-    from django.core.paginator import Paginator
-    from django.contrib.auth.decorators import login_required
-    from django.views.generic import DetailView
-
     def main_page(request):
         return render(request, 'main.html')
     ```
