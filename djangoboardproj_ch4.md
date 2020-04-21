@@ -52,31 +52,48 @@
 - 다음은 앞으로 사용할 custom css 파일이다. `boardapp/static/boardapp/assets/css`에 main.css로 저장한다.
 
     ```css
+    html {
+        position: relative;
+        min-height: 100%;
+        margin: 0;
+    }
+    body {
+        min-height: 100%;
+    }
+    #container {
+        position: relative;
+        min-width: 310px;
+        max-width: 90%;
+        margin: 0 auto;
+        margin-bottom: 50px;
+    }
+    #footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+	    padding: 15px 0;
+    }
+
     .center {
-    text-align: center;
+        text-align: center;
     }
     .right {
         text-align: right;
     }
-    #container {
-        min-height:200px;
-    }
+
     .form-width-90 {
         width: 90%;
-    }
-    #container {
-        min-width: 310px;
-        max-width: 90%;
-        min-height: 400px;
-        margin: 0 auto
     }
     .row {
         margin-left: 0px;
         margin-right: 0px;
     }
+
     .reply-reply {
         display: none;
     }
+
     .like-tag-1 {
         cursor: pointer;
         background: transparent;

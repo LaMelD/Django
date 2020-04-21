@@ -199,6 +199,5 @@
             <h1>Welcome to AWS Django Board!</h1>
         </div>
     </div>
-    <div class="height-100"></div>
     {% endblock %}
     ```
