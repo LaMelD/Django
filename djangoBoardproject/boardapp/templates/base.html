@@ -6,44 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% load static %}
         <link rel="stylesheet" href="{% static 'boardapp/assets/css/bootstrap.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'boardapp/assets/css/main.css' %}"/>
         <script src="{% static 'boardapp/assets/js/jquery-3.3.1.min.js' %}"></script>
         <script src="{% static 'boardapp/assets/js/bootstrap.min.js' %}"></script>        
         {% block script %}{% endblock %}
-        <style>
-            .center {
-                text-align: center;
-            }
-            .right {
-                text-align: right;
-            }
-            #container {
-                min-height:200px;
-            }
-            .form-width-90 {
-                width: 90%;
-            }
-            #container {
-                min-width: 310px;
-                max-width: 90%;
-                min-height: 400px;
-                margin: 0 auto
-            }
-            .row {
-                margin-left: 0px;
-                margin-right: 0px;
-            }
-            .reply-reply {
-                display: none;
-            }
-            .like-tag-1 {
-                cursor: pointer;
-                background: transparent;
-            }
-            .like-tag-2 {
-                cursor: default;
-                background: #DDDDFF;
-            }
-        </style>
     </head>
     <body>
         <div id="header">
