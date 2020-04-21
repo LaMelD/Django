@@ -64,7 +64,6 @@ def user_register_result(request):
     try:
         if username and User.objects.filter(username__exact=username).count() == 0:
             date_of_birth = datetime(int(birth_year), int(birth_month), int(birth_day))
-            #date_of_birth = timezone.now()
             user = User.objects.create_user(username, password, last_name, email, phone, date_of_birth)
             redirection_page = '/boardapp/user_register_completed/'
         else:
