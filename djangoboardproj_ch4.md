@@ -61,7 +61,6 @@
         min-height: 100%;
     }
     #container {
-        position: relative;
         min-width: 310px;
         max-width: 90%;
         margin: 0 auto;
