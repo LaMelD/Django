@@ -133,8 +133,8 @@
                 {% block content %}{% endblock %}
             </div>
             <div id="footer">
-                <div id="row">
-                    <div class="col-12 center">Copyright by Digitalbooks / <a href="mailto:mail">Contact Us</a></div>
+                <div class="row bg-dark">
+                    <div class="col-12 center" style="color:white">Copyright by Digitalbooks / <a href="mailto:mail">Contact Us</a></div>
                 </div>
             </div>
         </body>
