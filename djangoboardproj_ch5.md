@@ -1,20 +1,6 @@
 # Django Boardapp project
 
-## MVC - MTV 패턴 :: admin 페이지 사용
+## MVC - MTV 패턴 :: django 어플리케이션 흐름
 
-- admin 페이지를 django에서 지원하는 페이지를 상속받아 사용할 것이다.
-- boardapp/admin.py를 수정한다.
-
-    ```python
-    from django.contrib import admin
-    from boardapp.models import *
-
-    admin.site.register(Boards)
-    admin.site.register(BoardCategories)
-    admin.site.register(BoardReplies)
-    admin.site.register(BoardLikes)
-    ```
-
-## MVC - MTV 패턴 :: static, media의 위치
-
-- collectstatic 설명과 settings.py의 static, media 설명
+- url을 통해 view에서 정의된 내용을 사용하여 templates를 보여준다.는 내용을 설명
+- view에서 model을 사용해 데이터 베이스의 내용을 받아올 수 있음을 설명
