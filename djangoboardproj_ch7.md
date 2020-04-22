@@ -514,3 +514,12 @@
 ## 테스트
 
 - base.html에서 완성된 부분을 #에서 name에 맞게 변경하고 runserver를 실시한다.
+- 회원가입을 테스트한다.
+    - id : admin
+    - 이름 : administrator
+    - email : admin@admin.com
+- 앞으로 관리자 계정이 필요하므로 mysql에 접속하여 해당 user의 컬럼을 변경
+    - is_superuser = 1
+    - is_staff = 1
+- SQL : update auth_user set is_superuser = 1, is_staff = 1 where username = 'admin';
+- admin 페이지에 접속하여 로그인을 테스트한다.
