@@ -309,3 +309,199 @@
         </div>
         {% endblock %}
         ```
+
+### login
+
+- LoginView
+    - LoginView는 django에서 지원하는 auth의 views를 사용한다.
+    - urls.py에서 template_name을 login.html로 지정하였다.
+    - boardapp/templates/login.html
+        ```html
+        {% extends "base.html" %}
+
+        {% block title %}Login{% endblock %}
+
+        {% block script %}
+        {% load static %}<script src="{% static 'boardapp/assets/js/login.js' %}"></script>
+        {% endblock %}
+
+        {% block content %}
+        {% if form.errors %}
+        <script>alert("ID와 비밀번호를 올바르게 입력하십시오");</script>
+        {% endif %}
+        <div style="height: 70px;"></div>
+        <div class="row block-center">
+            <div class="car-box col-12">
+                <form id="login_form" action="." method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12 center"><h2>Login</h2></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 right">ID</div>
+                        <div class="ml-1 col-5">
+                            <input type="text" name="username" id="username" size="12"/>
+                        </div>
+                    </div>
+                    <div class = "row">
+                        <div class="col-6 right">PASSWORD</div>
+                        <div class="ml-1 col-5">
+                            <input type="password" name="password" id="password" size="12"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 center">
+                            <input type="button" value="로그인" onclick="login()"/>
+                            <input type="button" value="회원가입" onclick="location.href='{% url 'register' %}'"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 center">
+                            <h4>아이디가 없으십니까? 회원가입을 해 주시기 바랍니다!</h4>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+        ```
+    - boardapp/static/boardapp/assets/js/login.js
+        ```javascript
+        $(document).ready(function() {
+            $('input').keydown(function(e) {
+                if (e.which == 13) {
+                    $('form').submit();
+                }
+            });
+        });
+
+        function login() {
+            if (!$('#username').val()) {
+                alert("아이디를 입력해 주시기 바랍니다.");
+                return;
+            }
+            if (!$('#password').val()) {
+                alert("비밀번호를 입력해 주시기 바랍니다.");
+                return;
+            }
+            
+            $('#login_form').submit();
+        }
+        ```
+
+### logout
+
+- LogoutView
+    - LogoutView는 django에서 지원하는 auth의 views를 사용한다.
+    - template는 따로 지정하지 않았다.
+
+### modify
+
+- PasswordChangeView
+    - PasswordChangeView는 django에서 지원하는 auth의 views를 사용한다.
+    - urls.py에서 template_name을 password_change.html로 지정하였다.
+    - boardapp/templates/password_change.html
+        ```html
+        {% extends "base.html" %}
+
+        {% block title %}회원정보 조회{% endblock %}
+
+        {% block script %}
+        {% load static %}<script src="{% static 'boardapp/assets/js/user.js' %}"></script>
+        {% endblock %}
+
+        {% block content %}
+        {% if form.errors %}
+        <script>alert("비밀번호 변경이 잘못되었습니다. 올바르게 입력해 주시기 바랍니다.")</script>
+        {% endif %}
+        <div class="row block-center">
+            <div class="card-box col-6">
+                <form id="password_change_form" action="." method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12"><h2>회원정보 조회 / 비밀번호 변경</h2></div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            ID: <span class="margin-left-10">{{ user.username }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            {{ form.old_password.label_tag }}
+                            <span class="margin-left-10">{{ form.old_password }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            {{ form.new_password1.label_tag }}
+                            <span class="margin-left-10">{{ form.new_password1 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            {{ form.new_password2.label_tag }}
+                            <span class="margin-left-10">{{ form.new_password2 }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            이름: <span class="margin-left-10">{{ user.last_name }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            E-mail: <span class="margin-left-10">{{ user.email }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            전화번호: <span class="margin-left-10">{{ user.phone }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="ml-1 col-11">
+                            생년월일: <span class="margin-left-10">{{ user.date_of_birth | date:"Y년 n월 j일" }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 center">
+                            <input type="button" value="비밀번호 변경" onclick="changePassword()"/>
+                            <input type="button" value="이전화면" onclick="window.history.back()"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endblock %}
+        ```
+    - boardapp/static/boardapp/assets/js/user.js
+        ```javascript
+        function changePassword() {
+            if (!$('#id_old_password').val()) {
+                alert("비밀번호를 입력해 주시기 바랍니다.");
+                return;
+            }
+            if ($('#id_new_password1').val() != $('#id_new_password2').val()) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return;
+            }
+            
+            $('#password_change_form').submit();
+        }
+        ```
+
+- PasswordChangeDoneView
+    - PasswordChangeDoneView는 django에서 지원하는 auth의 views를 사용한다.
+    - urls.py에서 template_name을 password_change_done.html로 지정하였다.
+    - boardapp/templates/password_change_done.html
+        ```html
+        <script>
+            alert("비밀번호 변경이 완료되었습니다.");
+            location.href="{% url 'main' %}"
+        </script>
+        ```
+
+## 테스트
+
+- base.html에서 완성된 부분을 #에서 name에 맞게 변경하고 runserver를 실시한다.
