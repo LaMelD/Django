@@ -223,16 +223,87 @@
         ```
 
 - user_register_idcheck
-    - view
-    - html
-    - javascript
+    - boardapp/views.py
+        ```python
+        def user_register_idcheck(request):
+            if request.method == "POST":
+                username = request.POST['username']
+            else:
+                username = ''
+                
+            idObject = User.objects.filter(username__exact=username)
+            idCount = idObject.count()
+            
+            if idCount > 0:
+                msg = "<font color='red'>이미 존재하는 ID입니다.</font><input type='hidden' name='IDCheckResult' id='IDCheckResult' value=0/>"
+            else:
+                msg = "<font color='blue'>사용할 수 있는 ID입니다.</font><input type='hidden' name='IDCheckResult' id='IDCheckResult' value=1/>"
+            
+            return HttpResponse(msg)
+        ```
 
 - user_register_res
-    - view
-    - html
-    - javascript
+    - boardapp/views.py
+        ```python
+        def user_register_result(request):
+            if request.method == "POST":
+                username = request.POST['username']
+                password = request.POST['password']
+                last_name = request.POST['last_name']
+                phone = request.POST['phone']
+                email = request.POST['email']
+                birth_year = request.POST['birth_year']
+                birth_month = request.POST['birth_month']
+                birth_day = request.POST['birth_day']
+            
+            try:
+                if username and User.objects.filter(username__exact=username).count() == 0:
+                    date_of_birth = datetime(int(birth_year), int(birth_month), int(birth_day))
+                    user = User.objects.create_user(username, password, last_name, email, phone, date_of_birth)
+                    redirection_page = '/boardapp/user_register_completed/'
+                else:
+                    redirection_page = '/boardapp/error/'
+            except BaseException as e:
+                print(e)
+                redirection_page = '/boardapp/error/'
+                
+            return redirect(redirection_page)
+        ```
 
 - user_register_complete
-    - view
-    - html
-    - javascript
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        {% extends "base.html" %}
+
+        {% block title %}회원가입 완료{% endblock %}
+
+        {% block script %}
+        {% endblock %}
+
+        {% block content %}
+        <div style="height: 70px;"></div>
+        <div class="row block-center">
+            <div class="card-box col-8">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="margin-bottom-10">
+                            회원가입이 완료되었습니다.
+                        </h3>
+                        <h3 class="margin-bottom-10">
+                            AWS / Django Web Application의 서비스를 이용할 수 있습니다.
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 center">
+                        <input type="button" value="로그인" onclick="location.href='{% url 'login' %}'" />
+                        <input type="button" value="메인화면" onclick="location.href='{% url 'main' %}'" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+        ```
