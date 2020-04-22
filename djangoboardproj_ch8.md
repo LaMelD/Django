@@ -27,21 +27,84 @@
 ### list
 
 - `board_list`, `board_list/<category>`
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        ```
+    - boardapp/static/boardapp/assets/js/
+        ```javascript
+        ```
 
 ### write
 
 - `board_write/<category>`
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        ```
+    - boardapp/static/boardapp/assets/js/
+        ```javascript
+        ```
 - `board_write_res`
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        ```
+    - boardapp/static/boardapp/assets/js/
+        ```javascript
+        ```
 
 ### view
 
 - `board_view/<int:pk>`
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        ```
+    - boardapp/static/boardapp/assets/js/
+        ```javascript
+        ```
 
 ### delete
 
 - `board_delete_res`
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        ```
+    - boardapp/static/boardapp/assets/js/
+        ```javascript
+        ```
 
 ### modify
 
 - `board_modify/<int:pk>`
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        ```
+    - boardapp/static/boardapp/assets/js/
+        ```javascript
+        ```
 - `board_modify_res`
+    - boardapp/views.py
+        ```python
+        ```
+    - boardapp/templates/
+        ```html
+        ```
+    - boardapp/static/boardapp/assets/js/
+        ```javascript
+        ```
