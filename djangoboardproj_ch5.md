@@ -12,7 +12,7 @@
 
 ## MVC - MTV 패턴 :: urls.py 작성
 
-- `djangoboard/urls.py`
+- `djangoproj/urls.py`
 
     ```python
     from django.conf.urls.static import static

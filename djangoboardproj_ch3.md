@@ -89,7 +89,7 @@
 
     ```
     (ve) $ ./manage.py startapp boardapp
-    (ve) $ vi djangoboard/settings.py
+    (ve) $ vi djangoproj/settings.py
     ```
 
     - 아래와 같이 INSTALLED_APPS에 생성한 어플리케이션을 등록한다.
