@@ -183,7 +183,7 @@
 
 #### template - main.html
 
-- `boardapp/main.html`
+- `boardapp/templates/main.html`
 
     ```html
     {% extends "base.html" %}
