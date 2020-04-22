@@ -15,31 +15,11 @@
 - 이전에 만들어 두었던 admin 계정으로 로그인한다.
 - boardcategoriess에 추가를 선택한다.
 
-+++
-type : notice
-code : notice
-name : 공지사항
-desc : 설명을 쓴다.
-List count : 10
-Authority : 1
-+++
-
-- 첫번째 카테고리
-    - 
-- 첫번째 카테고리
-    - type : notice
-    - code : notice
-    - name : 공지사항
-    - desc : 설명을 쓴다.
-    - List count : 10
-    - Authority : 1
-- 첫번째 카테고리
-    - type : notice
-    - code : notice
-    - name : 공지사항
-    - desc : 설명을 쓴다.
-    - List count : 10
-    - Authority : 1
+|type|code|name|desc|List count|Authority|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|notice|notice|공지사항|설명|10|1|
+|normal|normal|자유게시판|설명|10|0|
+|communication|comm|대화형 게시판|설명|5|0|
 
 ## urls.py
 
