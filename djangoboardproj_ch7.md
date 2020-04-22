@@ -502,6 +502,15 @@
         </script>
         ```
 
+## settings.py 변경
+
+- django에서 지원하는 auth를 사용하였으므로 settings.py에 명시해 주어야 한다.
+
+    ```python
+    LOGIN_REDIRECT_URL = '/boardapp/'
+    LOGOUT_REDIRECT_URL = '/boardapp/'
+    ```
+
 ## 테스트
 
 - base.html에서 완성된 부분을 #에서 name에 맞게 변경하고 runserver를 실시한다.
