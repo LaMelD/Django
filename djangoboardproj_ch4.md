@@ -71,7 +71,7 @@
         left: 0;
         bottom: 0;
         width: 100%;
-	    padding: 15px 0;
+	    padding-top: 15px;
     }
 
     .center {
@@ -87,6 +87,8 @@
     .row {
         margin-left: 0px;
         margin-right: 0px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
 
     .reply-reply {

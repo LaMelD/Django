@@ -331,7 +331,7 @@
         {% endif %}
         <div style="height: 70px;"></div>
         <div class="row block-center">
-            <div class="car-box col-12">
+            <div class="card-box col-12">
                 <form id="login_form" action="." method="POST">
                     {% csrf_token %}
                     <div class="row">
