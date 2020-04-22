@@ -273,8 +273,10 @@
 - user_register_complete
     - boardapp/views.py
         ```python
+        def user_register_completed(request):
+            return render(request, 'user_register_completed_page.html')
         ```
-    - boardapp/templates/
+    - boardapp/templates/user_register_completed_page.html
         ```html
         {% extends "base.html" %}
 
