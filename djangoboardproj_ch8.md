@@ -8,6 +8,38 @@
 - 게시글 삭제
 - 게시글 수정
 
+## DB category 생성
+
+- 시작하기에 앞서 category를 생성한다.
+- runserver를 하고 admin 페이지에 접속한다(ip:8000/admin/)
+- 이전에 만들어 두었던 admin 계정으로 로그인한다.
+- boardcategoriess에 추가를 선택한다.
+
+---
+type : notice
+code : notice
+name : 공지사항
+desc : 설명을 쓴다.
+List count : 10
+Authority : 1
+---
+- 첫번째 카테고리
+    - 
+- 첫번째 카테고리
+    - type : notice
+    - code : notice
+    - name : 공지사항
+    - desc : 설명을 쓴다.
+    - List count : 10
+    - Authority : 1
+- 첫번째 카테고리
+    - type : notice
+    - code : notice
+    - name : 공지사항
+    - desc : 설명을 쓴다.
+    - List count : 10
+    - Authority : 1
+
 ## urls.py
 
 - boardapp/urls.py
