@@ -42,6 +42,47 @@
 - `board_list`, `board_list/<category>`
     - boardapp/views.py
         ```python
+        def board_list_page(request, category=''):
+            if request.method == "POST":
+                search_text = request.POST['search_text']
+            else:
+                search_text = ''
+            
+            if category:
+                articles = Boards.objects.filter(category__category_code=category)
+                board_category = BoardCategories.objects.get(category_code=category)
+                list_count = board_category.list_count
+            else:
+                articles = Boards.objects.all()
+                board_category = BoardCategories()
+                list_count = 10
+            
+            if search_text:
+                articles = articles.filter(title__contains=search_text)
+            
+            articles = articles.annotate(like_count=Count('boardlikes', distinct=True), reply_count=Count('boardreplies', distinct=True)).order_by('-id')
+            
+            paginator = Paginator(articles, list_count)
+            try:
+                page = int(request.GET['page'])
+            except:
+                page = 1
+            articles = paginator.get_page(page)
+            
+            page_count = 10
+            page_list = []
+            first_page = (math.ceil(page/page_count) - 1) * page_count + 1
+            last_page = min([math.ceil(page/page_count) * page_count, paginator.num_pages])
+            for i in range(first_page, last_page + 1):
+                page_list.append(i)
+            
+            args = {}
+            args.update({"articles":articles})
+            args.update({"board_category":board_category})
+            args.update({"search_text":search_text})
+            args.update({"page_list":page_list})
+            
+            return render(request, 'board_list.html', args)
         ```
     - boardapp/templates/
         ```html
