@@ -608,10 +608,7 @@
                         
                         article.save()
                         
-                        if referer == 'board':
-                            redirection_page = '/boardapp/board_view/' + article_id + '/'
-                        else:
-                            redirection_page = '/boardapp/comm_view/' + article_id + '/'
+                        redirection_page = '/boardapp/board_view/' + article_id + '/'
                         
                 else:
                     redirection_page = '/boardapp/error/'

@@ -80,7 +80,7 @@
         ```html
         {% extends "base.html" %}
 
-        {% block title %}{{ board_category.category_name}} 대화형{% endblock %}
+        {% block title %}{{ board_category.category_name}} 리스트{% endblock %}
 
         {% block script %}
         {% load static %}<script src="{% static 'boardapp/assets/js/boards.js' %}"></script>
@@ -241,6 +241,8 @@
         }
         ```
 
+## modify
+
 - `comm_modify/<int:pk>`
     - boardapp/views.py
         ```python
@@ -332,6 +334,8 @@
         }
         ```
 
+## 수정 이후 view
+
 - `comm_view/<int:pk>`
     - boardapp/views.py
         ```python
@@ -369,6 +373,83 @@
                 {% if object.image %}<img src="{{ object.image.url }}"/>{% endif %}
             </div>
         </div>
+        ```
+
+## modify, delete
+
+- board_delete_result, board_modify_result를 board와 공유하여 사용한다.
+- board, comm 각각에서 행동을 하였을 때 redirect 를 바꾸어 주어야한다.
+- 따라서 각각 아래와 같이 수정한다.
+    - boardapp/views.py의 board_delete_result
+        ```python
+        @login_required
+        def board_delete_result(request):
+            if request.method == "POST":
+                article_id = request.POST['article_id']
+                referer = request.POST['referer']
+            else:
+                article_id = -1
+                
+            args = {}
+            
+            article = Boards.objects.get(id=article_id)
+            if request.user == article.user:
+                article.delete()
+                
+                if referer == "board":
+                    redirection_page = '/boardapp/board_list/' + article.category.category_code + '/'
+                else:
+                    redirection_page = '/boardapp/comm_list/' + article.category.category_code + '/'
+            else:
+                redirection_page = '/boardapp/error/'
+                
+            return redirect(redirection_page)
+        ```
+    - boardapp/views.py의 board_delete_result
+        ```python
+        @login_required
+        def board_modify_result(request):
+            if request.method == "POST":
+                title = request.POST['title']
+                content = request.POST['content']
+                article_id = request.POST['id']
+                referer = request.POST['referer']
+                try:
+                    img_file = request.FILES['img_file']
+                except:
+                    img_file = None
+            else:
+                title = None
+            
+            args = {}
+            
+            try:
+                if request.user and title and content and article_id:
+                    article = Boards.objects.get(id=article_id)
+                    
+                    if article.user != request.user:
+                        redirection_page = '/boardapp/error/'
+                    else:
+                        article.title = title
+                        article.content = content
+                        article.last_update_date = timezone.now()
+                        
+                        if img_file:
+                            article.image = img_file
+                        
+                        article.save()
+                        
+                        if referer == 'board':
+                            redirection_page = '/boardapp/board_view/' + article_id + '/'
+                        else:
+                            redirection_page = '/boardapp/comm_view/' + article_id + '/'
+                        
+                else:
+                    redirection_page = '/boardapp/error/'
+            except:
+                redirection_page = '/boardapp/error/'
+            
+            return redirect(redirection_page)
         ```
 
 ## base.html 수정
