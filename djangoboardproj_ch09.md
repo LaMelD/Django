@@ -454,7 +454,7 @@
 
 ## base.html 수정
 
-- 공지사항과 자유게시판을 다음과 같이 수정한다.
+- 대화형 게시판을 다음과 같이 수정한다.
     ```html
     <div class="col-2 center sideline dark-link">
         <a href="{% url 'commlist' 'comm' %}">대화형 게시판</a>
