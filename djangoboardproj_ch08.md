@@ -370,6 +370,7 @@
                     obj.view_count = obj.view_count + 1
                     obj.save()
                     
+                # reply와 likes를 위해 미리 준비한다.
                 replies = BoardReplies.objects.filter(article__id=obj.id).order_by('reference_reply_id', 'level', 'id')
                 like_count = BoardLikes.objects.filter(article__id=obj.id).count()
                 user_count = BoardLikes.objects.filter(article__id=obj.id).filter(user=request.user).count()
