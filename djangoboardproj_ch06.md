@@ -12,7 +12,7 @@
     <!DOCTYPE html>
     <html lang="KO">
         <head>
-            <title>{% block title %}AWS / Django Web Application{% endblock %}</title>
+            <title>{% block title %}Django Web Application{% endblock %}</title>
             <meta charset="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             {% load static %}
@@ -27,7 +27,7 @@
                 <div class="logo">
                     <div class="row bg-dark">
                         <div class="col-8 logo-link dark-link">
-                            <a href="{% url 'main' %}">AWS / Django Web Application</a>
+                            <a href="{% url 'main' %}">Django Web Application</a>
                         </div>
                         <div class="col-4 center member-link dark-link bg-black">
                         {% if user.username %}
@@ -80,7 +80,7 @@
     <!DOCTYPE html>
     <html lang="KO">
         <head>
-            <title>{% block title %}AWS / Django Web Application{% endblock %}</title>
+            <title>{% block title %}Django Web Application{% endblock %}</title>
             <meta charset="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1">
             {% load static %}
@@ -95,7 +95,7 @@
                 <div class="logo">
                     <div class="row bg-dark">
                         <div class="col-8 logo-link dark-link">
-                            <a href="{% url 'main' %}">AWS / Django Web Application</a>
+                            <a href="{% url 'main' %}">Django Web Application</a>
                         </div>
                         <div class="col-4 center member-link dark-link bg-black">
                         {% if user.username %}
