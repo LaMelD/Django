@@ -1,5 +1,7 @@
 # Django Boardapp project
 
+# 대화형 게시판 삭제에 이슈가 있다. 앞으로 해결될 예정
+
 ## 대화형 게시판 웹페이지 구성
 
 - 대화형 게시글 리스트, 글쓰기
@@ -405,7 +407,7 @@
                 
             return redirect(redirection_page)
         ```
-    - boardapp/views.py의 board_delete_result
+    - boardapp/views.py의 board_modify_result
         ```python
         @login_required
         def board_modify_result(request):
