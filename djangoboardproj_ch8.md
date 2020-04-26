@@ -500,7 +500,7 @@
             model = Boards
             template_name = 'board_modify.html'
         ```
-    - boardapp/templates/
+    - boardapp/templates/board_modify.html
         ```html
         {% extends "base.html" %}
 
@@ -558,7 +558,7 @@
         </div>
         {% endblock %}
         ```
-    - boardapp/static/boardapp/assets/js/
+    - boardapp/static/boardapp/assets/js/boards.js
         ```javascript
         function modifySend() {
             if ( !$('#title').val()) {
@@ -633,3 +633,7 @@
         <a href="{% url 'boardlist' 'normal' %}">자유 게시판</a>
     </div>
     ```
+
+## 테스트
+
+- 로그인을 실시하고 자유롭게 게시글을 작성하며 테스트를 진행한다.
