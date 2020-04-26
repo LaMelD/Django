@@ -334,7 +334,7 @@
         });
     }
 
-    // 댓글 버튼 클릭 대댓글을 볼 수 있음
+    // 댓글 버튼 클릭 대댓글을 작성할 수 있음
     function replyClick(reply_id) {
         $('.reply-reply').each(function() {
             $(this).css('display', 'none');
