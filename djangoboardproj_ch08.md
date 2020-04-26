@@ -414,26 +414,6 @@
                         {% if object.image %}<img src="{{ object.image.url }}"/>{% endif %}
                     </div>
                 </div>
-                <div class="article-like" data-id="{{ object.id }}">
-                    <form action="" method="POST" data-type="like" data-id="{{ object.id }}">
-                        <input type="hidden" name="article_id" value="{{ object.id }}"/>
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-12 center">
-                                <div class="like-box {% if user_count == 1 %}like-tag-2{% else %}like-tag-1{% endif %}" onclick="likeClick({{ object.id }})">
-                                    <div class="row" style="height: 100%">
-                                        <div class="col-6 like-text" style="padding: 0">
-                                            <div class="like-contents">추천</div>
-                                        </div>
-                                        <div class="col-6 like-count" style="padding: 0">
-                                            <div class="like-contents">{{ like_count }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
                 <div class="row">
                     <div class="col-12 right">
                         {% if object.user == user %}

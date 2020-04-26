@@ -334,7 +334,7 @@
         }
         ```
 
-## 수정 이후 view
+## view
 
 - `comm_view/<int:pk>`
     - boardapp/views.py
