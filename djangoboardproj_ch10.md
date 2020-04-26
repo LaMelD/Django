@@ -159,28 +159,6 @@
         {% endif %}
         {% endblock %}
         ```
-    - boardapp/static/boardapp/assets/js/boards.js
-        ```javascript
-        function replyWriteSend(id) {
-            var reply_div = '.article-reply[data-id='+id+']';
-            var reply_form = 'form[data-type=reply][data-id='+id+']';
-            
-            if (!$(reply_form + ' textarea').val()) {
-                alert("내용을 입력해주시기 바랍니다.");
-                return;
-            }
-            
-            $.ajax({
-                type: "POST",
-                url: "/boardapp/reply_write_res/",
-                data: $(reply_form).serialize(),
-                success: function(response) {
-                    $(reply_div).html(response);
-                    $(reply_form + ' textarea').val('');
-                },
-            });
-        }
-        ```
 
 - `comm_list/<category>`
     - 댓글 창, 댓글보기 버튼 추가
@@ -330,77 +308,318 @@
         <div class="height-100"></div>
         {% endblock %}
         ```
-    - boardapp/static/boardapp/assets/js/boards.js
-        ```javascript
-        function replyView(article_id) {
-            var reply_div = ".article-reply[data-id="+article_id+"]";
+
+### javascript 추가
+- 각각의 기능을 주석으로 썻다.
+- boardapp/static/boardapp/assets/js/boards.js
+    ```javascript
+    // 등록 버튼 클릭
+    function replyWriteSend(id) {
+        var reply_div = '.article-reply[data-id='+id+']';
+        var reply_form = 'form[data-type=reply][data-id='+id+']';
+        
+        if (!$(reply_form + ' textarea').val()) {
+            alert("내용을 입력해주시기 바랍니다.");
+            return;
+        }
+        
+        $.ajax({
+            type: "POST",
+            url: "/boardapp/reply_write_res/",
+            data: $(reply_form).serialize(),
+            success: function(response) {
+                $(reply_div).html(response);
+                $(reply_form + ' textarea').val('');
+            },
+        });
+    }
+
+    // 댓글 버튼 클릭 대댓글을 볼 수 있음
+    function replyClick(reply_id) {
+        $('.reply-reply').each(function() {
+            $(this).css('display', 'none');
+        });
+        
+        $('.reply-reply[data-id='+reply_id+']').css('display','block');
+    }
+
+    // 댓글 수정 클릭
+    function replyModifyClick(id) {
+        $.ajax({
+            type: "GET",
+            url: "/boardapp/reply_modify/" + id + "/",
+            success: function(response) {
+                $(".reply-block[data-id="+id+"]").html(response);
+            },
+        });
+    }
+
+    // 댓글 삭제 클릭
+    function replyDeleteClick(reply_id, article_id) {
+        if (confirm("삭제하시겠습니까?")) {
+            var reply_div = '.article-reply[data-id='+article_id+']';
+            var reply_form = 'form[data-type=reply_delete][data-id='+reply_id+']';
             
             $.ajax({
-                type: "GET",
-                url: "/boardapp/reply_list/" + article_id + "/",
+                type: "POST",
+                url: "/boardapp/reply_delete_res/",
+                data: $(reply_form).serialize(),
                 success: function(response) {
                     $(reply_div).html(response);
+                    $(reply_form + ' textarea').val('');
                 },
             });
         }
-        ```
+    }
+
+    // 대댓글 등록 클릭
+    function replyReplySend(id, article_id) {
+        var reply_div = '.article-reply[data-id='+article_id+']';
+        var reply_form = 'form[data-type=reply-reply][data-id='+id+']';
+        
+        if (!$(reply_form + ' textarea').val()) {
+            alert("내용을 입력해 주시기 바랍니다.");
+            return;
+        }
+        
+        $.ajax({
+            type: "POST",
+            url: "/boardapp/reply_write_res/",
+            data: $(reply_form).serialize(),
+            success: function(response) {
+                $(reply_div).html(response);
+                $(reply_form + ' textarea').val('');
+                $('.reply-reply[data-id='+id+']').css('display','none');
+            },
+        });
+    }
+
+    // 댓글 수정 완료 클릭
+    function replyModifySend(id, article_id) {
+        var reply_div = ".article-reply[data-id="+article_id+"]";
+        var reply_form = "form[data-type=reply-modify][data-id="+id+"]";
+        
+        if (!$(reply_form + ' textarea').val()) {
+            alert("내용을 입력해 주시기 바랍니다.");
+            return;
+        }
+        
+        $.ajax({
+            type: "POST",
+            url: "/boardapp/reply_modify_res/",
+            data: $(reply_form).serialize(),
+            success: function(response) {
+                $(reply_div).html(response);
+                $(reply_form + ' textarea').val('');
+            },
+        });
+    }
+
+    // 대화형에서 댓글보기 클릭
+    function replyView(article_id) {
+        var reply_div = ".article-reply[data-id="+article_id+"]";
+        
+        $.ajax({
+            type: "GET",
+            url: "/boardapp/reply_list/" + article_id + "/",
+            success: function(response) {
+                $(reply_div).html(response);
+            },
+        });
+    }
+    ```
 
 ### write
 
 - `reply_write_res`
     - boardapp/views.py
         ```python
-        ```
-    - boardapp/templates/board_comm_list.html
-        ```html
-        ```
-    - boardapp/static/boardapp/assets/js/boards.js
-        ```javascript
+        def reply_write_result(request):
+            if request.method == "POST":
+                content = request.POST['content']
+                level = request.POST['level']
+                id = request.POST['id']
+            else:
+                content = None
+            
+            try:
+                if request.user and content and id:
+                    if level == '0':
+                        article = Boards.objects.get(id=id)
+                        reply = BoardReplies(article=article, user=request.user, level=level, content=content)
+                        reply.save()
+                        reply.reference_reply_id = reply.id
+                        reply.save()
+                        redirection_page = '/boardapp/reply_list/' + id + '/'
+                    else:
+                        article = BoardReplies.objects.get(id=id).article
+                        reply = BoardReplies(article=article, user=request.user, level=level, content=content, reference_reply_id=id)
+                        reply.save()
+                        redirection_page = '/boardapp/reply_list/' + str(article.id) + '/'
+                        
+                else:
+                    redirection_page = '/boardapp/error/'
+            except BaseException as e:
+                print(e)
+                redirection_page = '/boardapp/error/'
+            
+            return redirect(redirection_page)
         ```
 
 ### list
 
-- `comm_list/<category>`
+- `reply_list/<int:article>`
     - boardapp/views.py
         ```python
+        def reply_list(request, article):
+            replies = BoardReplies.objects.filter(article__id=article).order_by('reference_reply_id', 'level', 'id')
+            args = {}
+            args.update({"replies": replies})
+            return render(request, 'reply_list.html', args)
         ```
-    - boardapp/templates/board_comm_list.html
+    - boardapp/templates/reply_list.html
         ```html
-        ```
-    - boardapp/static/boardapp/assets/js/boards.js
-        ```javascript
+        <div class="row border-top-line">
+            <div class="col-12 margin-bottom-10"><h3>댓글 {{ replies.count }}개</h3></div>
+        </div>
+        {% for reply in replies %}
+        <!-- Reply Title block -->
+        <div class="row">
+            {% if reply.level == 0 %}
+            <div class="col-12 reply-block" data-id="{{ reply.id }}">
+            {% elif reply.level == 1%}
+            <div class="col-1 center">└</div>
+            <div class="col-11 reply-block" data-id="{{ reply.id }}">
+            {% endif %}
+                <div class="row border-top-dotted">
+                    <div class="col-6"><h4>
+                        <span style="padding-right: 30px">{{ reply.user.last_name }}</span>
+                        <span>{{ reply.registered_date|date:"Y-m-d H:i:s" }}</span>
+                    </h4></div>
+                    <div class="col-6 right">
+                        <form action="" method="POST" data-type="reply_delete" data-id="{{reply.id}}">
+                            <input type="hidden" name="reply_id" value="{{ reply.id }}"/>
+                            {% csrf_token %}
+                            <p>
+                                {% if reply.level == 0 %}
+                                <span style="cursor:pointer" onclick="replyClick({{ reply.id }})">댓글</span>
+                                {% endif %}
+                                {% if reply.user == request.user %}
+                                <span style="cursor:pointer" onclick="replyModifyClick({{ reply.id }})">수정</span>
+                                <span style="cursor:pointer" onclick="replyDeleteClick({{ reply.id }}, {{ reply.article.id }})">삭제</span>
+                                {% endif %}
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <!-- Reply Content Block -->
+                <div class="row border-bottom-dotted">
+                    <div class="col-12 view-content-comm">
+                        {{ reply.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Reply Write Block -->
+        {% if user.username and reply.level == 0 %}
+        <div class="reply-reply" data-id="{{ reply.id }}">
+            <div class="write-box">
+                <form action="" method="POST" data-type="reply-reply" data-id="{{ reply.id }}">
+                    <input type="hidden" name="level" value="1"/>
+                    <input type="hidden" name="id" value="{{ reply.reference_reply_id }}"/>
+                    {% csrf_token %}
+                    <div class="row height-080 center">
+                        <div class="col-11">
+                            <textarea name="content" class="form-width-90"></textarea>
+                        </div>
+                        <div class="col-1">
+                            <input type="button" onclick="replyReplySend({{ reply.reference_reply_id }}, {{ reply.article.id }})" value="등록" class="form-width-90"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
         ```
 
 ### delete
 
-- `comm_list/<category>`
+- `reply_delete_res`
     - boardapp/views.py
         ```python
-        ```
-    - boardapp/templates/board_comm_list.html
-        ```html
-        ```
-    - boardapp/static/boardapp/assets/js/boards.js
-        ```javascript
+        @login_required
+        def reply_delete_result(request):
+            if request.method == "POST":
+                reply_id = request.POST['reply_id']
+            else:
+                reply_id = -1
+            
+            reply = BoardReplies.objects.get(id=reply_id)
+            
+            if request.user == reply.user:
+                reply.delete();
+                redirection_page = '/boardapp/reply_list/' + str(reply.article.id) + '/'
+            else:
+                redirection_page = '/boardapp/error/'
+                
+            return redirect(redirection_page)
         ```
 
 ### modify
 
-- `comm_list/<category>`
+- `reply_modify/<int:pk>`
     - boardapp/views.py
         ```python
+        class ReplyModifyView(DetailView):
+            model = BoardReplies
+            template_name = 'reply_modify.html'
         ```
-    - boardapp/templates/board_comm_list.html
+    - boardapp/templates/reply_modify.html
         ```html
-        ```
-    - boardapp/static/boardapp/assets/js/boards.js
-        ```javascript
+        {% if user.username %}
+        <div class="write-box">
+            <form action="" method="POST" data-type="reply-modify" data-id="{{ object.id }}">
+                <input type="hidden" name="id" value="{{ object.id }}"/>
+                {% csrf_token %}
+                <div class="row height-080 center">
+                    <div class="col-11">
+                        <textarea name="content" class="form-width-90">{{ object.content }}</textarea>
+                    </div>
+                    <div class="col-1">
+                        <input type="button" onclick="replyModifySend({{ object.id }}, {{ object.article.id }})" value="수정" class="form-width-90"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
         ```
 
-## base.html 수정
-
-- 공지사항과 자유게시판을 다음과 같이 수정한다.
+- `reply_modify_res`
+    - boardapp/views.py
+        ```python
+        def reply_modify_result(request):
+            if request.method == "POST":
+                content = request.POST['content']
+                reply_id = request.POST['id']
+            else:
+                content = None
+                
+            try:
+                if request.user and content and reply_id:
+                    reply = BoardReplies.objects.get(id=reply_id)
+                    reply.content = content
+                    reply.save()
+                    redirection_page = '/boardapp/reply_list/' + str(reply.article.id) + '/'
+                else:
+                    redirection_page = '/boardapp/error/'
+            except BaseException as e:
+                print(e)
+                redirection_page = '/boardapp/error/'
+            
+            return redirect(redirection_page)
+        ```
 
 ## 테스트
 
-- 로그인을 실시하고 자유롭게 게시글을 작성하며 테스트를 진행한다.
+- 로그인을 실시하고 자유롭게 게시글의 댓글을 작성하며 테스트를 진행한다.
