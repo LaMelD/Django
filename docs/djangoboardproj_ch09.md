@@ -1,7 +1,5 @@
 # Django Boardapp project
 
-# 대화형 게시판 삭제에 이슈가 있다. 앞으로 해결될 예정
-
 ## 대화형 게시판 웹페이지 구성
 
 - 대화형 게시글 리스트, 글쓰기
@@ -140,7 +138,7 @@
                         </h4></div>
                         <div class="col-6 right">
                             {% if article.user == request.user %}
-                            <form action="{% url 'boarddeleteres' %}" method="POST" data-id="{{ article.id }}">
+                            <form action="{% url 'boarddeleteres' %}" method="POST" data-type="delete" data-id="{{ article.id }}">
                                 <input type="hidden" name="article_id" value="{{ article.id }}"/>
                                 <input type="hidden" name="referer" value="comm"/>
                                 {% csrf_token %}
@@ -226,7 +224,7 @@
                     $('#delete_form').submit();
                 }
                 else {
-                    $("form[data-id="+id+"]").submit();
+                    $("form[data-type=delete][data-id="+id+"]").submit();
                 }
             }
         }
@@ -357,7 +355,7 @@
             </h4></div>
             <div class="col-6 right">
                 {% if object.user == request.user %}
-                <form action="{% url 'boarddeleteres' %}" method="POST" data-id="{{ object.id }}">
+                <form action="{% url 'boarddeleteres' %}" method="POST" data-type="delete" data-id="{{ object.id }}">
                     <input type="hidden" name="article_id" value="{{ object.id }}"/>
                     <input type="hidden" name="referer" value="comm"/>
                     {% csrf_token %}

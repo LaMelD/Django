@@ -16,7 +16,7 @@ function deleteClick(id) {
             $('#delete_form').submit();
         }
         else {
-            $("form[data-id="+id+"]").submit();
+            $("form[data-type=delete][data-id="+id+"]").submit();
         }
     }
 }

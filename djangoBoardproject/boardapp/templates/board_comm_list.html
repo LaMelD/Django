@@ -59,7 +59,7 @@
                 </h4></div>
                 <div class="col-6 right">
                     {% if article.user == request.user %}
-                    <form action="{% url 'boarddeleteres' %}" method="POST" data-id="{{ article.id }}">
+                    <form action="{% url 'boarddeleteres' %}" method="POST" data-type="delete" data-id="{{ article.id }}">
                         <input type="hidden" name="article_id" value="{{ article.id }}"/>
                         <input type="hidden" name="referer" value="comm"/>
                         {% csrf_token %}
