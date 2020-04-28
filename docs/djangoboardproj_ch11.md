@@ -200,7 +200,7 @@
         ```
 
 - commlist
-    - commlist 에 likes 적용은 스스로 적용해보는 것을 권한다.
+    - commlist 에 likes 적용
     - boardapp/templates/board_comm_list.html 수정
     - boardapp/templates/board_comm_view.html 수정
     - boardapp/views.py 수정
