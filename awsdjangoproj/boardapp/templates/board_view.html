@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block script %}
+{% load static %}<script src="{% static 'boardapp/assets/js/boards.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!-- 게시물 내용 -->
+<div class="row block-center board">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12"><h4>{{ object.category.category_name }}</h4></div>
+        </div>
+        <div class="row border-top-line">
+            <div class="col-9"><h2>{{ object.title }}</h2></div>
+            <div class="col-3 right"><h4>조회 {{ object.view_count }}</h4></div>
+        </div>
+        <div class="row border-bottom-line">
+            <div class="col-6"><h4>{{ object.user.last_name }}</h4></div>
+            <div class="col-6 right"><h4>{{ object.registered_date|date:"Y-m-d H:i:s" }}</h4></div>
+        </div>
+        <div class="row">
+            <div class="col-12 view-content">
+                <p class="content-box">{{ object.content }}</p>
+                {% if object.image %}<img src="{{ object.image.url }}"/>{% endif %}
+            </div>
+        </div>
+        <div class="article-like" data-id="{{ object.id }}">
+            <form action="" method="POST" data-type="like" data-id="{{ object.id }}">
+                <input type="hidden" name="article_id" value="{{ object.id }}"/>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 center">
+                        <div class="like-box {% if user_count == 1 %}like-tag-2{% else %}like-tag-1{% endif %}" onclick="likeClick({{ object.id }})">
+                            <div class="row" style="height: 100%">
+                                <div class="col-6 like-text" style="padding: 0">
+                                    <div class="like-contents">추천</div>
+                                </div>
+                                <div class="col-6 like-count" style="padding: 0">
+                                    <div class="like-contents">{{ like_count }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-12 right">
+                {% if object.user == user %}
+                <form action="{% url 'boarddeleteres' %}" method="POST" id="delete_form">
+                    <input type="hidden" name="article_id" value="{{ object.id }}"/>
+                    <input type="hidden" name="referer" value="board"/>
+                    {% csrf_token %}
+                    <input type="button" onclick="location.href='{% url 'boardlist' object.category.category_code %}'" value="목록"/>
+                    <input type="button" onclick="location.href='{% url 'boardmodify' object.id %}'" value="수정"/>
+                    <input type="button" onclick="deleteClick()" value="삭제"/>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 게시물 댓글 -->
+<div class="row">
+    <div class="col-12 article-reply" data-id="{{ object.id }}">
+        <div class="row border-top-line">
+            <div class="col-12 margin-bottom-10"><h3>댓글 {{ replies.count }}개</h3></div>
+        </div>
+        {% for reply in replies %}
+        <!-- Reply Title block -->
+        <div class="row">
+            {% if reply.level == 0 %}
+            <div class="col-12 reply-block" data-id="{{ reply.id }}">
+            {% elif reply.level == 1%}
+            <div class="col-1 center">└</div>
+            <div class="col-11 reply-block" data-id="{{ reply.id }}">
+            {% endif %}
+                <div class="row border-top-dotted">
+                    <div class="col-6"><h4>
+                        <span style="padding-right: 30px">{{ reply.user.last_name }}</span>
+                        <span>{{ reply.registered_date|date:"Y-m-d H:i:s" }}</span>
+                    </h4></div>
+                    <div class="col-6 right">
+                        <form action="" method="POST" data-type="reply_delete" data-id="{{reply.id}}">
+                            <input type="hidden" name="reply_id" value="{{ reply.id }}"/>
+                            {% csrf_token %}
+                            <p>
+                                {% if reply.level == 0 %}
+                                <span style="cursor:pointer" onclick="replyClick({{ reply.id }})">댓글</span>
+                                {% endif %}
+                                {% if reply.user == request.user %}
+                                <span style="cursor:pointer" onclick="replyModifyClick({{ reply.id }})">수정</span>
+                                <span style="cursor:pointer" onclick="replyDeleteClick({{ reply.id }}, {{ reply.article.id }})">삭제</span>
+                                {% endif %}
+                            </p>
+                        </form>
+                    </div>
+                </div>
+                <!-- Reply Content Block -->
+                <div class="row border-bottom-dotted">
+                    <div class="col-12 view-content-comm">
+                        {{ reply.content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Reply Write Block -->
+        {% if user.username and reply.level == 0 %}
+        <div class="reply-reply" data-id="{{ reply.id }}">
+            <div class="write-box">
+                <form action="" method="POST" data-type="reply-reply" data-id="{{ reply.id }}">
+                    <input type="hidden" name="level" value="1"/>
+                    <input type="hidden" name="id" value="{{ reply.reference_reply_id }}"/>
+                    {% csrf_token %}
+                    <div class="row height-080 center">
+                        <div class="col-11">
+                            <textarea name="content" class="form-width-90"></textarea>
+                        </div>
+                        <div class="col-1">
+                            <input type="button" onclick="replyReplySend({{ reply.reference_reply_id }}, {{ reply.article.id }})" value="등록" class="form-width-90"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% if user.username %}
+<div class="write-box">
+    <form action="" method="POST" data-type="reply" data-id="{{ object.id }}">
+        <input type="hidden" name="id" value="{{ object.id }}"/>
+        <input type="hidden" name="level" value="0"/>
+        {% csrf_token %}
+        <div class="row height-80 center">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <textarea name="content" class="form-width-90"></textarea>
+            </div>
+            <div class="col-1">
+                <input type="button" onclick="replyWriteSend({{ object.id }})" value="등록" class="form-width-90"/>
+            </div>
+        </div>
+    </form>
+</div>
+{% endif %}
+<div class="height-100"></div>
+{% endblock %}

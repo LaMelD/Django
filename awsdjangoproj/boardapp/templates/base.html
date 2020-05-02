@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="KO">
+    <head>
+        <title>{% block title %}AWS / Django Web Application{% endblock %}</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'boardapp/assets/css/bootstrap.min.css' %}"/>
+        <script src="{% static 'boardapp/assets/js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'boardapp/assets/js/bootstrap.min.js' %}"></script>        
+        {% block script %}{% endblock %}
+        <style>
+            .center {
+                text-align: center;
+            }
+            .right {
+                text-align: right;
+            }
+            #container {
+                min-height:200px;
+            }
+            .form-width-90 {
+                width: 90%;
+            }
+            #container {
+                min-width: 310px;
+                max-width: 90%;
+                min-height: 400px;
+                margin: 0 auto
+            }
+            .row {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
+            .reply-reply {
+                display: none;
+            }
+            .like-tag-1 {
+                cursor: pointer;
+                background: transparent;
+            }
+            .like-tag-2 {
+                cursor: default;
+                background: #DDDDFF;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div class="logo">
+                <div class="row bg-dark">
+                    <div class="col-8 logo-link dark-link">
+                        <a href="{% url 'main' %}">AWS / Django Web Application</a>
+                    </div>
+                    <div class="col-4 center member-link dark-link bg-black">
+                    {% if user.username %}
+                        <a href="{% url 'password_change' %}">{{ user.last_name }} 님</a> /
+                        <a href="{% url 'logout' %}">로그아웃</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">로그인</a> /
+                        <a href="{% url 'register' %}">회원가입</a>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="menu">
+                <div class="row bg-dark">
+                    <div class="col-2 center sideline dark-link">
+                        <a href="{% url 'main' %}">HOME</a>
+                    </div>
+                    <div class="col-2 center sideline dark-link">
+                        <a href="{% url 'introduce' %}">소개</a>
+                    </div>
+                    <div class="col-2 center sideline dark-link">
+                        <a href="{% url 'boardlist' 'notice' %}">공지사항</a>
+                    </div>
+                    <div class="col-2 center sideline dark-link">
+                        <a href="{% url 'boardlist' 'test' %}">자유 게시판</a>
+                    </div>
+                    <div class="col-2 center sideline dark-link">
+                        <a href="{% url 'commlist' 'comm' %}">대화형 게시판</a>
+                    </div>
+                    <div class="col-2 center sideline">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+        <div id="container">
+            {% block content %}{% endblock %}
+        </div>
+        <div class="row">
+            <div class="col-4 bg-success center">.col-4</div>
+            <div class="col-4 bg-warning center">.col-4</div>
+            <div class="col-4 bg-success center">.col-4</div>
+        </div>
+        <div id="footer">
+            <div id="row">
+                <div class="col-12 center">Copyright by Digitalbooks / <a href="mailto:wqe014@gmail.com">Contact Us</a></div>
+            </div>
+        </div>
+    </body>
+</html>
